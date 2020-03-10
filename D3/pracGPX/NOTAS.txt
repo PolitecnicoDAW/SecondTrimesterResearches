@@ -1,0 +1,15 @@
+RenderGPX.php --> clase que recibe un string que será un $fixture, 
+el nombre del fichero, y devolvera el nobre del fichero con min entre medio
+
+Si recibe ...07.gpx devuelve ...07.min.gpx
+
+El algoritmo: recorrer una primera vez los puntos para obtener las distancias 
+de todos los puntos y dividirlos por los puntos totales menos uno para obtener 
+la distancia media entre puntos, a la que llamaremos MEDIA.
+
+Luego eliminar los puntos que creen una distancia con sus inmediatamente anteriores, que sea MENOR que la media,
+puesto que no serían relevantes.
+
+
+AL RENDERIZAR, obtener dos productos, un producto uno con el gpx minimizado y un json de resumen,
+que tenga un tag con el autor y un ARRAY con las ciudades por las que se pasa.

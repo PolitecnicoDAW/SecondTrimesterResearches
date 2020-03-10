@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+</head>
+
+<body>
+    <div id="my_dataviz2"></div>
+
+    <script>
+        var variables;
+        const createChart = async () => {
+            // set the dimensions and margins of the graph
+            var margin = { top: 60, right: 120, bottom: 90, left: 30 },
+                width = 810 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
+
+            // append the svg object to the body of the page
+            var svg = d3.select("#my_dataviz2")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+            const myVars = await fetch("http://vps675002.ovh.net/DWEC/D3/DATAS/elevationChart.json").then((data) => data.json());
+            variables = myVars;
+
+            //Read the data
+            d3.csv("http://vps675002.ovh.net/DWEC/D3/DATAS/elevationChart.csv", function (data) {
+
+                // Add X axis --> it is a date format
+                var x = d3.scaleBand()
+                    .range([0, width])
+                    .domain(myVars)
+                    .padding(0.9);
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .attr("class", "x axis")
+                    .call(d3.axisBottom(x))
+                    .selectAll("text")
+                    .attr("transform", "translate(12,40) rotate(90)");
+
+                // Add Y axis
+                var y = d3.scaleLinear()
+                    .domain([0, 1000])
+                    .range([height, 0]);
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(d3.axisLeft(y));
+
+                // Show confidence interval
+                /*svg.append("path")
+                    .datum(data)
+                    .attr("fill", "#cce5df")
+                    .attr("stroke", "none")
+                    .attr("d", d3.area()
+                        .x(function (d) { return x(d.x) })
+                        .y0(function (d) { return y(d.CI_right) })
+                        .y1(function (d) { return y(d.CI_left) })
+                    )*/
+
+                // Add the line
+                svg
+                    .append("path")
+                    .datum(data)
+                    .attr("fill", "none")
+                    .attr("stroke", "steelblue")
+                    .attr("stroke-width", 1.5)
+                    .attr("d", d3.line()
+                        .x(function (d) { return x(d.x) })
+                        .y(function (d) { return y(d.y) })
+                    )
+
+            })
+
+        }
+        createChart();
+
+        setTimeout(function () {
+            updateData();
+        }, 3000);
+
+        // ** Update data section (Called from the onclick)
+        function updateData() {
+            // Get the data again
+            d3.csv("http://vps675002.ovh.net/DWEC/D3/DATAS/elevationChart.csv", function (error, data) {
+                data.forEach(function (d) {
+                    d.y = d.y + 1;
+                });
+
+                // Scale the range of the data again 
+                x.domain(d3.extent(data, function (d) { console.log(d);return d.x; }));
+                y.domain([0, d3.max(data, function (d) { return d.y; })]);
+
+                // Select the section we want to apply our changes to
+                var svg = d3.select("body").transition();
+
+                // Make the changes
+                svg.select(".line")   // change the line
+                    .duration(750)
+                    .attr("d", valueline(data));
+                svg.select(".x.axis") // change the x axis
+                    .duration(750)
+                    .call(xAxis);
+                svg.select(".y.axis") // change the y axis
+                    .duration(750)
+                    .call(yAxis);
+            });
+        }
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>heatMap</title>
+    <style>
+        body div {
+            display: inline-block;
+            width: 40%;
+            height: 40%;
+        }
+
+        #my_dataviz2 {
+            transform: rotate(-90deg);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+    <!-- Create a div where the graph will take place -->
+    <div id="my_dataviz"></div>
+    <div id="my_dataviz2"></div>
+    <script>
+        const createHeatmap = async () => {
+            // set the dimensions and margins of the graph
+            var margin = { top: 30, right: 30, bottom: 30, left: 150 },
+                width = 500 - margin.left - margin.right,
+                height = 700 - margin.top - margin.bottom;
+
+            // append the svg object to the body of the page
+            var svg = d3.select("#my_dataviz")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+            // Labels of row and columns
+
+            const myVars = await fetch("DATAS/heatmapcsv.json").then((data) => data.json());
+            var myGroups = ["1", "2", "3", "4", "5"];
+            // Build X scales and axis:
+            var x = d3.scaleBand()
+                .range([0, width])
+                .domain(myGroups)
+                .padding(0.01);
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x))
+
+            // Build X scales and axis:
+            var y = d3.scaleBand()
+                .range([height, 0])
+                .domain(myVars)
+                .padding(0.01);
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
+            // Build color scale
+            var myColor = d3.scaleLinear()
+                .range(["white", "#69b3a2"])
+                .domain([1, 100])
+
+            //Read the data
+            d3.csv("DATAS/heatmapcsv.csv", function (data) {
+                svg.selectAll()
+                    .data(data, function (d) { return d.group + ':' + d.variable; })
+                    .enter()
+                    .append("rect")
+                    .attr("x", function (d) { return x(d.group) })
+                    .attr("y", function (d) { console.log(d.variable + "\n"); return y(d.variable) })
+                    .attr("width", x.bandwidth())
+                    .attr("height", y.bandwidth())
+                    .style("fill", function (d) { return myColor(d.value) })
+
+            })
+
+        }
+
+        createHeatmap();
+    </script>
+    <script>
+        const createChart = async () => {
+            // set the dimensions and margins of the graph
+            var margin = { top: 60, right: 120, bottom: 90, left: 30 },
+                width = 810 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
+
+            // append the svg object to the body of the page
+            var svg = d3.select("#my_dataviz2")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+            const myVars = await fetch("DATAS/elevationChart.json").then((data) => data.json());
+
+            //Read the data
+            d3.csv("DATAS/elevationChart.csv", function (data) {
+
+                // Add X axis --> it is a date format
+                var x = d3.scaleBand()
+                    .range([0, width])
+                    .domain(myVars)
+                    .padding(0.9);
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x))
+                    .selectAll("text")
+                    .attr("transform", "translate(12,40) rotate(90)");
+
+                // Add Y axis
+                var y = d3.scaleLinear()
+                    .domain([0, 1000])
+                    .range([height, 0]);
+                svg.append("g")
+                    .call(d3.axisLeft(y));
+
+                // Show confidence interval
+                svg.append("path")
+                    .datum(data)
+                    .attr("fill", "#cce5df")
+                    .attr("stroke", "none")
+                    .attr("d", d3.area()
+                        .x(function (d) { return x(d.x) })
+                        .y0(function (d) { return y(d.CI_right) })
+                        .y1(function (d) { return y(d.CI_left) })
+                    )
+
+                // Add the line
+                svg
+                    .append("path")
+                    .datum(data)
+                    .attr("fill", "none")
+                    .attr("stroke", "steelblue")
+                    .attr("stroke-width", 1.5)
+                    .attr("d", d3.line()
+                        .x(function (d) { return x(d.x) })
+                        .y(function (d) { return y(d.y) })
+                    )
+
+            })
+
+        };
+        createChart();
+
+    </script>
+</body>
+
+</html>
