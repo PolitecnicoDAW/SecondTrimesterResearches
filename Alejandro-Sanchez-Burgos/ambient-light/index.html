@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    if ('ondevicelight' in window) {
+      window.addEventListener('devicelight', function(event) {
+        const body = window.document.body;
+        const color = event.value < 50 ? 'red' : 'green';
+        window.document.body.style.background = color;
+      });
+    } else {
+      alert('You need mozilla android version 62 or below D:');
+      /*
+       * Only mozilla android 62 version for mobile phone is currently working
+       * about:config -> device.sensors.ambientLight.enabled set true
+       */
+    }
+  </script>
+</html>

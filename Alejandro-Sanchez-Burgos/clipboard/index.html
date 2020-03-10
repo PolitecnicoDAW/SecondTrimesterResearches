@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button
+      class="clip-letter-button"
+      data-clipboard-action="cut"
+      data-clipboard-target="#copyme"
+    >
+      Cut text
+    </button>
+    <button
+      class="clip-letter-button"
+      data-clipboard-action="copy"
+      data-clipboard-target="#copyme"
+    >
+      Copy text
+    </button>
+    <textarea id="copyme"></textarea>
+  </body>
+  <!-- // https://github.com/zenorocha/clipboard.js -->
+  <script src="clipboard.min.js"></script>
+  <script>
+    // Not working on mobile phone?
+    const clipboard = new ClipboardJS('.clip-letter-button');
+
+    clipboard.on('success', function(e) {
+      console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+      console.log(e);
+    });
+  </script>
+</html>
