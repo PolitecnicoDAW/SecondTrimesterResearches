@@ -1,0 +1,55 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="exit()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <div class="card">
+    <div class="header">
+      <div class="avatar">
+        <img [src]="'http://localhost:5000/' + player.photoUrl" alt="">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="user-meta ion-text-center">
+        <h3 class="playername">{{player.firstName}} {{player.lastName}}</h3>
+        <h5 class="country">{{player.team}}</h5>
+      </div>
+      <ion-card>
+        <ion-list>
+          <ion-item>
+            <ion-label><b>Estado:</b> {{player.birthState}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Ciudad:</b> {{player.birthCity}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Altura:</b> {{player.height}}cm</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Peso:</b> {{player.weight}}kg</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Salario:</b> {{player.salary}}€</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Experiencia:</b> {{player.experience}} años</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Posicion:</b> {{player.position}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Dorsal:</b> {{player.jersey}}</ion-label>
+          </ion-item>
+
+        </ion-list>
+      </ion-card>
+
+    </div>
+  </div>
+</ion-content>

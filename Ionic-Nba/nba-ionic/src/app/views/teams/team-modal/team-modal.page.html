@@ -1,0 +1,46 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="exit()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content fullscreen="true">
+  <div class="card">
+    <div class="header">
+      <div class="avatar">
+        <img [src]="team.photoUrl" alt="">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="user-meta ion-text-center">
+        <h3 class="playername">{{team.city}} {{team.name}}</h3>
+      </div>
+      <ion-card class="list">
+        <ion-list>
+          <ion-item>
+            <ion-label><b>Ciudad</b> {{team.city}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Nombre</b> {{team.name}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Key</b> {{team.key}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Conference</b> {{team.conference}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label><b>Division</b> {{team.division}}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+
+    </div>
+  </div>
+</ion-content>

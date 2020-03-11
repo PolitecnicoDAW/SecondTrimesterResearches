@@ -1,0 +1,8 @@
+{
+  "appId": "com.nba.app",
+  "appName": "wikinba",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}
