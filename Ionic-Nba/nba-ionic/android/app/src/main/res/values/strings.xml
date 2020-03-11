@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">wikinba</string>
+    <string name="title_activity_main">wikinba</string>
+    <string name="package_name">com.nba.app</string>
+    <string name="custom_url_scheme">com.nba.app</string>
+</resources>

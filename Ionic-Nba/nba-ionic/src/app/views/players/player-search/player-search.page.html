@@ -1,0 +1,18 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Players</ion-title>
+  </ion-toolbar>
+  <ion-searchbar (ionChange)="searchTerm$.next($event)"></ion-searchbar>
+  <ion-select interface='popover' [interfaceOptions]="customPopoverOptions" (ionChange)="getSelectedTeam($event)">
+    <ion-select-option *ngFor="let player of (playerService.players$ | async) | filterRepeat " [value]="player.team">
+      {{player.team}}
+    </ion-select-option>
+  </ion-select>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <app-card-player *ngFor="let player of playerService.foundPlayers$ | async" [player]="player"
+      (click)="onPlayerSelected(player)"></app-card-player>
+  </ion-list>
+</ion-content>

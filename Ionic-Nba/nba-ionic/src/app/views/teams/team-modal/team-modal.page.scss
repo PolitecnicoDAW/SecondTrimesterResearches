@@ -1,0 +1,61 @@
+ion-toolbar {
+    --background: transparent;
+}
+
+ion-chip {
+    --background: #9dc912;
+    --color: #fff;
+}
+
+.card {
+    margin: 0 auto;
+    padding-top: 40px;
+
+    .header {
+        height: 140px; // 20vh;
+
+        .avatar {
+            width: 216px; //40vw
+            height: 160px;
+            position: relative;
+            margin: 0 auto;
+
+            
+        }
+    }
+}
+
+.card-body {
+
+    background-color: #f4f4f4;
+    padding: 30px;
+    height: calc(100vh - (128px + 56px));
+    overflow: hidden;
+    margin-top: 54px;
+
+    .user-meta {
+        padding-top: 40px;
+        padding-bottom: 37px;
+
+        .playername {
+            font-size: 24px;
+            font-weight: 600;
+            color: #303940;
+        }
+
+        .country {
+            font-size: 90%;
+            color: #060708;
+            text-transform: uppercase;
+            margin: 0 auto;
+        }
+    }
+}
+
+ion-button[primaryColor] {
+    background-color : primaryColor
+}
+
+.list{
+    padding-top: 20px;
+}

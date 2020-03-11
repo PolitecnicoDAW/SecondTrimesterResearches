@@ -1,0 +1,21 @@
+
+
+ion-content{
+    --background: url(../../../../assets/background.png) no-repeat top center/cover fixed, #fff;
+}
+
+ion-row{
+  left: -4em;
+  width: 41em;
+    height: 35em;
+    position: fixed;
+    bottom: 0px;
+}
+
+img{
+  height: 35em;
+  width: 34em;
+    animation-duration: 2s;
+  animation-delay: 1s;
+  
+}
