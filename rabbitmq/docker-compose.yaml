@@ -1,0 +1,61 @@
+version: '3'  # requires Docker Compose 1.13 or later
+
+services:
+  
+  rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    hostname: 'rabbitmq'
+    environment: 
+        RABBITMQ_DEFAULT_USER: "rabbitmq"
+        RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    ports:
+      # The standard AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+
+  webserver:
+    links:
+      - rabbitmq
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-web
+    ports:
+      # Endpoint
+      - '8080:8080'
+  
+  generatekey:
+    links:
+      - rabbitmq
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-key
+  
+  sendemail:
+    links:
+      - rabbitmq
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-email
+
+  client:
+    links:
+      - rabbitmq
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-client
+    ports:
+      # Endpoint
+      - '8081:80'
+        
+    
