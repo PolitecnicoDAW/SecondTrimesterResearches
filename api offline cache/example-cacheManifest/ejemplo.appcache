@@ -1,0 +1,13 @@
+CACHE MANIFEST
+
+CACHE:
+img.jpg
+main.css
+main.js
+
+NETWORK:
+ejemplo.appcache
+example-cache-manifest.html
+
+FALLBACK:
+/ fallback.html
