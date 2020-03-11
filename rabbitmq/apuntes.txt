@@ -1,0 +1,3 @@
+comando para ver colas y mensajes pendientes:
+watch rabbitmqctl list_queues
+
