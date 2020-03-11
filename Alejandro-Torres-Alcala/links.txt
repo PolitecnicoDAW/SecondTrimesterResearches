@@ -1,0 +1,2 @@
+Pointer-lock : [Alejandro] https://github.com/PolitecnicoDAW/api-pointer-lock
+React Native : [Alejandro - Carlos] https://github.com/PolitecnicoDAW/react-native

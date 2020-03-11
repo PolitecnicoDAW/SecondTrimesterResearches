@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>SatisfyerJS</title>
+  </head>
+  <style>
+    button {
+      width: 50%;
+      padding: 1em;
+    }
+    input {
+      width: 40%;
+      padding: 1em;
+    }
+    input,
+    button {
+      font-size: 1em;
+    }
+  </style>
+  <body>
+    <input type="number" id="inputNumber" min="100" step="100" />
+    <button id="btnVibrate">( ͡° ͜ʖ ͡°)</button>
+  </body>
+  <script>
+    window.document
+      .getElementById('btnVibrate')
+      .addEventListener('click', function() {
+        navigator.vibrate(+window.document.getElementById('inputNumber').value);
+      });
+  </script>
+</html>
