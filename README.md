@@ -33,6 +33,7 @@ APIs:
     Battery Status API - 1 - Alejandro Sánchez
     Clipboard API - 1 - Alejandro Sánchez
     API Gamepad - 1 - Brenes, Roberto
+    JsDOS - 1 - Brenes, Roberto
     Internationalization API - 1 
     API Proximity - 1 
     Vibration API - 1 - Alejandro Sanchez
