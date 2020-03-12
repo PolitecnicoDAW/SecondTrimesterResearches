@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geolocation</title>
+  </head>
+  <body>
+    <p><button onclick="geoFindMe()">Show my location</button></p>
+    <div id="out"></div>
+  </body>
+  <script>
+    function geoFindMe() {
+      var output = document.getElementById('out');
+
+      if (!navigator.geolocation) {
+        output.innerHTML =
+          '<p>Geolocation is not supported by your browser</p>';
+      } else {
+        output.innerHTML = '<p>Locating…</p>';
+        navigator.geolocation.getCurrentPosition(success, error);
+      }
+
+      function success(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        output.innerHTML =
+          '<p>Latitude is ' +
+          latitude +
+          '° <br>Longitude is ' +
+          longitude +
+          '°</p>';
+      }
+
+      function error() {
+        output.innerHTML = 'Unable to retrieve your location';
+      }
+    }
+  </script>
+</html>
+
+<!-- Por razones de seguridad el navegador va a preguntar al usuario si se puede
+sacar su localizacion o no -->
+<!-- Se utiliza la funcion getCurrentPosition de navigator.geolocation de donde se
+saca position.coords.latitude y longitude -->

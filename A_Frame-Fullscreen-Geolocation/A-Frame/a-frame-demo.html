@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.9/dist/aframe-particle-system-component.min.js"></script>
+    <!-- <script src="https://unpkg.com/aframe-extras.ocean@%5E3.5.x/dist/aframe-extras.ocean.min.js"></script> -->
+  </head>
+  <body>
+    <a-scene>
+      <a-box position="-2 0.5 -3" rotation="0 0 15" color="red"></a-box>
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-cylinder
+        position="1 0.75 -3"
+        radius="0.5"
+        height="1.5"
+        color="#FFC65D"
+      ></a-cylinder>
+      <a-plane
+        position="0 0 -4"
+        rotation="-90 0 0"
+        width="4"
+        height="4"
+        color="#7BC8A4"
+      ></a-plane>
+      <!-- <a-sky color="grey"></a-sky> -->
+      <a-image
+        src="./assets/pajaro.jpg"
+        position="-1 0.5 -3"
+        rotation="0 0 0"
+      ></a-image>
+      <a-text value="Hello, World!" position="0 1 -1" color="blue"></a-text>
+      <!-- <a-light type="ambient" position="0 0.5 -4" color="#222"></a-light> -->
+      <a-sky src="./assets/Venice.Still001.jpeg" rotation="0 -20 0"></a-sky>
+      <a-entity particle-system="preset: snow" position="0 0 -10"></a-entity>
+    </a-scene>
+  </body>
+</html>

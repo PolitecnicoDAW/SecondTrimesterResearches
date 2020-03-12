@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fullscreen</title>
+  </head>
+  <body>
+    HELLO WORLD
+    <div id="div" style="background-color: red;">Div Case</div>
+  </body>
+  <script>
+    document.addEventListener('keydown', function(e) {
+      if (e.keyCode == 13) {
+        toggleFullScreen();
+      }
+    });
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.getElementById('div').requestFullscreen();
+        //document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+  </script>
+</html>
+
+<!-- Por defecto se puede entrar y salir del fullscreen con F11 -->
+<!-- En este caso entramos con Intro y podemos salir con Intro o Escape -->
+<!-- Se puede aplicar a varios elementos aunque no a todos. Por ejemplos los <i-frame> 
+    tiene un atributo 'allowfullscreen' que decide si el fullscreen va a funcionar o no -->
+<!-- fullscreenEnabled -> atributo para ver si el documento permite fullscreen -->
+<!-- fullscreenElement -> atributo que apunta al elemento en fullscreen; si es nulo es que no esta en pantalla completa -->
