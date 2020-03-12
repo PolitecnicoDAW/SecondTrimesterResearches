@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <h1>Insert your username</h1>
+    <input type="text" id="username" />
+    <button onclick="sendUsername()">Ok</button>
+  </body>
+  <!-- Loading socket.io -->
+  <script src="../../node_modules/socket.io-client/dist/socket.io.js"></script>
+  <script>
+    const socket = io('http://vps678826.ovh.net:3000');
+    const { ipcRenderer } = require('electron');
+
+    let username = '';
+
+    const usernameInput = document.getElementById('username');
+    usernameInput.focus();
+
+    usernameInput.addEventListener('keyup', event => {
+      if (event.keyCode === 13) {
+        sendUsername();
+      }
+    });
+
+    function sendUsername() {
+      username = '';
+      username = usernameInput.value.trim();
+      if (username) {
+        socket.emit('userConnected', username);
+      }
+    }
+
+    socket.on('userConnectionCorrect', () => {
+      ipcRenderer.send('usernameIntroduced', username);
+      socket.close();
+    });
+    socket.on('usernameConnectionFailed', () => {
+      alert('Login failed. That username is already in use!');
+    });
+  </script>
+</html>

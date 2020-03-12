@@ -1,0 +1,45 @@
+{
+  "name": "api-electron",
+  "version": "1.1.0",
+  "description": "Simple chat",
+  "main": "./src/client/index.js",
+  "scripts": {
+    "start:client": "electron src/client/index.js",
+    "start:server": "node src/server/index.js",
+    "start:client:dev": "electromon src/client/index.js",
+    "start:server:dev": "nodemon src/server/index.js",
+    "build": "electron-builder",
+    "build:windows": "electron-builder --win"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robertojmm/api-electron.git"
+  },
+  "keywords": [],
+  "author": "Alex and Robert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robertojmm/api-electron/issues"
+  },
+  "homepage": "https://github.com/robertojmm/api-electron#readme",
+  "devDependencies": {
+    "electromon": "^1.0.10",
+    "electron": "^8.0.2",
+    "electron-builder": "^22.3.6",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "build": {
+    "productName": "Discordia Chat",
+    "files": [
+      "package.json",
+      "src/**/*",
+      "build/**/*"
+    ]
+  }
+}

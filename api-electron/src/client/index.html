@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Discordia</title>
+    <link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+      #messages,
+      #usersConnected {
+        /* width: 800px; */
+        height: 500px;
+        border: 2px solid black;
+        padding: 1px 1px;
+        background: rgb(54, 54, 54);
+        overflow-y: scroll;
+      }
+
+      #usersConnected {
+        background: rgb(7, 98, 19);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to Discordia</h1>
+    <h3>Logged as <span id="usernamePlaceHolder"></span></h3>
+    We are using node
+    <script>
+      document.write(process.versions.node);
+    </script>
+    , Chrome
+    <script>
+      document.write(process.versions.chrome);
+    </script>
+    , and Electron
+    <script>
+      document.write(process.versions.electron);
+    </script>
+    <div class="container-fluid">
+      <div class="row mb-3">
+        <div class="col-10">
+          <div id="messages"></div>
+        </div>
+        <div class="col-2">
+          <div id="usersConnected"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10">
+          <input type="text" id="inputSendMessage" class="form-control" />
+        </div>
+        <div class="col-2">
+          <button id="buttonSendMessage" class="btn btn-dark">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- Loading socket.io -->
+  <script src="../../node_modules/socket.io-client/dist/socket.io.js"></script>
+
+  <script>
+    let username;
+    const socket = io('http://vps678826.ovh.net:3000');
+    const path = require('path');
+    const { ipcRenderer, remote } = require('electron');
+    const id = remote.getCurrentWindow();
+
+    socket.on('clientReceiveMessage', receiveMessage);
+    socket.on('updateConnectedUserList', updateConnectedUserList);
+
+    function sendMessage() {
+      const message = getUserWrittingMessage();
+      clearUserMessageInput();
+
+      if (message) {
+        socket.emit('clientSendMessage', { sender: username, message });
+        messageElement = createMessageElement({ sender: username, message }, true);
+        DOM.messages.appendChild(messageElement);
+
+        scrollMessagesToBottom();
+      }
+    }
+
+    function receiveMessage({ sender, message }) {
+      messageElement = createMessageElement({ sender, message }, false);
+      DOM.messages.appendChild(messageElement);
+
+      scrollMessagesToBottom();
+
+      if (!isWindowFocused() || isWindowOnTray()) {
+        createNotification({ username: sender, message });
+      }
+    }
+
+    function createMessageElement({ sender, message }, isFromUser) {
+      const messageSpan = document.createElement('span');
+      messageSpan.style.fontSize = '16px';
+      messageSpan.innerText = `${message}`;
+      messageSpan.style.color = 'black';
+      const newMessageEl = document.createElement('div');
+      newMessageEl.style.background = 'rgb(226, 214, 214)';
+      newMessageEl.innerText = `${sender} : `;
+      newMessageEl.style.borderRadius = '5px';
+      newMessageEl.style.marginBottom = '8px';
+      newMessageEl.style.height = 'auto';
+      newMessageEl.style.paddingLeft = '20px';
+      newMessageEl.style.lineHeight = '70px';
+      newMessageEl.style.fontSize = '20px';
+      newMessageEl.style.color = isFromUser ? 'green' : 'black';
+      newMessageEl.appendChild(messageSpan);
+      return newMessageEl;
+    }
+
+    function updateConnectedUserList(userList) {
+      console.log(userList);
+
+      DOM.usersConnected.innerHTML = '';
+
+      for (user of userList) {
+        DOM.usersConnected.innerHTML += `<p>${user}</p>`;
+      }
+    }
+
+    function createNotification({ username, message }) {
+      const notification = {
+        title: username,
+        body: message,
+        icon: path.join(__dirname, 'clown.png')
+      };
+
+      const myNotification = new Notification(notification.title, notification);
+      myNotification.onclick = () => {
+        console.log('Notification clicked');
+      };
+    }
+
+    function scrollMessagesToBottom() {
+      DOM.messages.scrollTop = DOM.messages.scrollHeight;
+    }
+
+    function isWindowFocused() {
+      return remote.getCurrentWindow().isFocused();
+    }
+
+    function isWindowOnTray() {
+      return !remote.getCurrentWindow().isVisible();
+    }
+
+    const DOM = {
+      inputSendMessage: document.getElementById('inputSendMessage'),
+      buttonSendMessage: document.getElementById('buttonSendMessage'),
+      messages: document.getElementById('messages'),
+      usernamePlaceHolder: document.getElementById('usernamePlaceHolder'),
+      usersConnected: document.getElementById('usersConnected')
+    };
+
+    DOM.buttonSendMessage.onclick = sendMessage;
+
+    DOM.inputSendMessage.addEventListener('keyup', event => {
+      if (event.keyCode === 13) {
+        sendMessage();
+      }
+    });
+
+    function getUserWrittingMessage() {
+      return DOM.inputSendMessage.value.trim();
+    }
+
+    function clearUserMessageInput() {
+      DOM.inputSendMessage.value = '';
+    }
+
+    function loadUsername() {
+      ipcRenderer.send('requestUsername');
+      ipcRenderer.on('responseUsername', function(event, newUsername) {
+        console.log('Username', newUsername);
+        DOM.usernamePlaceHolder.innerText = newUsername;
+        socket.emit('registerUser', newUsername);
+        username = newUsername;
+      });
+    }
+
+    loadUsername();
+    DOM.inputSendMessage.focus();
+  </script>
+</html>
