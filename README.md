@@ -18,11 +18,11 @@ APIs:
     Sentry - 2 - Kevin  Cordón
     SonarQube - 3
     TextTracks - 1//Subtítulos en vídeos
-    FullScreen - 1 // Pantalla completa 
+    FullScreen - 1 // Pantalla completa - Alin y Fran Encinas
     Pointer Lock - 2   - (Alejandro Torres)
     WebGL + Three.js - 3 (Ruben Cruz y Juan Miguel)
     API File -2 -  Alex Aranda, Roberto 
-    API Geolocation - 1 
+    API Geolocation - 1 - Alin y Fran Encinas
     API Offline + Caché- 2 Raul Barrios
     API Page Visibility - 1
     API Web Messaging - 2
