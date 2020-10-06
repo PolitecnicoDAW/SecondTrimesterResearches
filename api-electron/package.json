@@ -24,7 +24,7 @@
   "homepage": "https://github.com/robertojmm/api-electron#readme",
   "devDependencies": {
     "electromon": "^1.0.10",
-    "electron": "^8.0.2",
+    "electron": "^8.5.2",
     "electron-builder": "^22.3.6",
     "nodemon": "^2.0.2"
   },
